@@ -172,12 +172,12 @@ def gigachat_to_openai(resp: dict) -> dict:
 
 Если tool-calling нестабилен — переходите в **text-mode** с явным JSON-блоком:
 
-```
+````
 Вызови tool, верни результат строго в виде:
 ```json
 {"tool": "search_docs", "args": {"query": "..."}}
 ```
-```
+````
 
 Harness парсит fenced JSON, маппит на tool-call. См. [Tool System](/guide/tool-system).
 

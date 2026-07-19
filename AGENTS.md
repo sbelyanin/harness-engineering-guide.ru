@@ -15,18 +15,25 @@
 
 ```bash
 # Полный цикл проверки перед коммитом (порядок важен)
-bash site/scripts/sync-content.sh        # 1. скопировать guide/ changelog/ → site/content/
-cd site && npm install                   # 2. поставить зависимости (npm, НЕ pnpm/yarn)
-npm run build                            # 3. сборка = SSG в site/out/ + проверка TypeScript
+bash site/scripts/run-quality-gates.sh     # 0. статические проверки контента (F1-F4)
+bash site/scripts/sync-content.sh          # 1. скопировать guide/ changelog/ → site/content/
+cd site && npm install                     # 2. поставить зависимости (npm, НЕ pnpm/yarn)
+npm run build                              # 3. сборка = SSG в site/out/ + проверка TypeScript
 
 # Локальная разработка
-cd site && npm run dev                   # http://localhost:3000, требует site/content/ — сначала sync
+cd site && npm run dev                     # http://localhost:3000, требует site/content/ — сначала sync
 
 # Typecheck без полной сборки
 cd site && npx tsc --noEmit
 ```
 
-- **Тестов и lint-скриптов нет.** `next build` запускает TypeScript-проверку — единственный статический верификатор.
+- **Quality gates (F1-F4)** запускаются перед каждым commit'ом и в CI (`.github/workflows/quality.yml`). Если меняешь контент в `guide/`/`changelog/` или `site/lib/guide-data.ts` — обязательно прогони локально. Скрипты в `site/scripts/check_*.py`, runner — `run-quality-gates.sh`. Без внешних зависимостей (Python stdlib).
+  - **F1** `check_frontmatter.py` — `title` + `section` + `author` обязательны в `guide/*.md`.
+  - **F2** `check_registry.py` — детект drift'а между `guide/*.md` и `guide-data.ts` (новый файл без регистрации → не попадёт в sidebar).
+  - **F3** `check_links.py` — внутренние ссылки (`/guide/<slug>`, относительные пути) резолвятся.
+  - **F4** `check_style.py` — STYLE.md-конвенции: ASCII `"..."` в prose, русизмы (`фреймворк`/`пайплайн`/...), NBSP в исходниках.
+
+- **Тестов и lint-скриптов нет.** `next build` запускает TypeScript-проверку — единственный статический верификатор кода сайта. Контент-проверки — quality gates F1-F4 (см. выше).
 - **Менеджер пакетов — только npm.** `package-lock.json` закоммичен; `pnpm-lock.yaml`/`yarn.lock` занесены в `.gitignore` умышленно. Если случайно создал — удали.
 - **Деплой:** push в `main` триггерит `.github/workflows/deploy-site.yml` → Cloudflare Pages. Локальный артефакт — `site/out/` (статический экспорт через `output: "export"` + `trailingSlash: true`).
 

@@ -111,7 +111,52 @@ harness-engineering-guide.ru/
 - [x] Проверка SEO-метаданных (`layout.tsx`, `page.tsx`, frontmatter titles)
 - [x] Сверка заголовков `guide-data.ts` с frontmatter/H1 в guide-статьях
 
-## Этап 7 — Независимое развитие русскоязычного издания
+> Этап 7 — см. архивный раздел ниже. Практически завершён (Track A/C/D ✅, B6 — по запросам сообщества).
+
+## Этап 8 — Зрелость проекта: features + quality gates
+
+Цель: превратить функциональный сайт в зрелый продукт — улучшить UX чтения, добавить автоматические защиты от регрессий, поднять SEO-видимость, углубить ключевой контент. Работа ведётся параллельно по **четырём трекам**.
+
+### 🧩 Track E — Site features (UX чтения и discovery)
+
+- [ ] **E1.** Reading-time в ArticleLayout (word-count из raw markdown, ~180 wpm для русского).
+- [ ] **E2.** Блок «Связанные статьи» в конце каждой статьи (по совпадению `section` + shared keywords).
+- [ ] **E3.** RSS-фид `/changelog/rss.xml` (отдельный от переводов upstream, только `ru-` prefix).
+- [ ] **E4.** Client-side поиск по гайду: prebuild-индекс в `site/content/search-index.json` + Flexsearch (zero-runtime-deps на SSG).
+- [x] **E0.** *(уже было)* TOC-сайдбар для длинных статей через `TableOfContents`.
+
+### 🛡 Track F — Quality gates (защита от регрессий) ✅
+
+Самый высокий agent-value: фиксирует конвенции STYLE.md и архитектурные invariant'ы.
+
+- [x] **F1.** `site/scripts/check_frontmatter.py` — валидатор frontmatter (`title` + `section` + `author` обязательны; `section` ∈ enum).
+- [x] **F2.** `site/scripts/check_registry.py` — детект registry drift: `guide-data.ts` ↔ `guide/*.md`. Информационно сообщает о расхождениях `frontmatter.title` ↔ sidebar-title (intended — sidebar короткий).
+- [x] **F3.** `site/scripts/check_links.py` — линкер внутренних ссылок: `/guide/<slug>` → `guide/<slug>.md`, относительные пути, README/ROADMAP cross-links.
+- [x] **F4.** `site/scripts/check_style.py` — STYLE.md linter: ASCII `"..."` в prose, русские транслитерации EN терминов, NBSP в исходниках. State-machine парсер code-fences (CommonMark-совместимый, nested fences через ≥4 backticks).
+- [x] **F5.** `.github/workflows/quality.yml` — запуск F1-F4 на PR + push в main. Runner: `site/scripts/run-quality-gates.sh`.
+- [x] **Попутно фиксы реальных багов**, найденных чекерами: `ghost-account-hunting.md` без `author`; 4× кириллических вариантов слова «Framework» в `glossary.md`/`harness-vs-framework.md`; nested code-fence в `yandexgpt-and-gigachat.md` (требует 4-backtick outer fence по CommonMark).
+
+### 📈 Track G — SEO & discovery
+
+- [x] **G0.** *(уже было)* `app/sitemap.ts`, `app/robots.ts`.
+- [ ] **G1.** Sitemap: добавить `/community`, использовать `lastModified` из git mtime статьи (не `new Date()`).
+- [ ] **G2.** JSON-LD `Article` schema в `<head>` для guide-страниц (через `generateMetadata` → `alternates`/`other`).
+- [ ] **G3.** OG-изображения: статичный SVG-шаблон с заголовком статьи → рендер в PNG (без runtime-deps).
+- [ ] **G4.** `alternates.canonical` в `generateMetadata` для каждой страницы.
+
+### 📚 Track H — Content depth (расширение ключевых статей)
+
+По приоритету влияния на читателя:
+
+- [ ] **H1.** `guide/russian-llm-harness.md` — добавить runnable code-пример (полный `harness.toml` под YandexGPT + GigaChat).
+- [ ] **H2.** `guide/yandexgpt-and-gigachat.md` — таблица сравнения моделей (context window, цена/1M tokens, supports tools).
+- [ ] **H3.** `guide/open-source-llm-stack.md` — `docker-compose.yml` для локального vLLM + OpenWebUI.
+- [ ] **H4.** `guide/compliance-152fz.md` — чек-лист аудита ПДн в формате copy-paste.
+- [ ] **H5.** `guide/on-prem-harness.md` — ASCII-диаграмма air-gapped deploy.
+
+---
+
+## Этап 7 — Независимое развитие русскоязычного издания (архив)
 
 Цель: превратить RU-издание из перевода в самостоятельный проект, ориентированный на русскоязычную аудиторию. Работа ведётся параллельно по **четырём трекам** (A → B/C/D), каждый трек разбит на подзадачи.
 
@@ -181,16 +226,12 @@ harness-engineering-guide.ru/
 
 ## Прогресс
 
-- Этап 1: **завершён** ✅
-- Этап 2: **завершён** ✅ (7 статей)
-- Этап 3: **завершён** ✅ (14 статей Practice)
-- Этап 4: **завершён** ✅ (Reference + Showcase)
-- Этап 5: **завершён** ✅ (changelog, skills, README, .github)
-- Этап 6: **завершён** ✅ (финальная проверка)
-- Этап 7: **в работе** 🔄 (практически завершён — остался только B6 по запросам сообщества)
-  - Track A (аудит): **A1–A7 завершены** ✅ (канон стиля зафиксирован в [`STYLE.md`](STYLE.md))
-  - Track B (RU-статьи): 6/7 (russian-llm-harness, on-prem-harness, yandexgpt-and-gigachat, open-source-llm-stack, cyrillic-tokenization, compliance-152fz)
-  - Track C (skills): 4/4 ✅ (abuse-hunter, ru-doc-summarizer, 152fz-audit, cyrillic-log-analyzer)
-  - Track D (changelog/сообщество): 4/4 ✅ (ru-changelog, страница /community, CONTRIBUTING, лента на главной)
+- Этап 1–6: **завершены** ✅ (полный перевод 25 статей оригинала + changelog + skills + .github)
+- Этап 7: **практически завершён** 🔄 (Track A/C/D ✅, B6 — по запросам сообщества)
+- Этап 8: **в работе** 🔄
+  - Track E (site features): 1/5 (TOC уже был, остальное — E1–E4)
+  - Track F (quality gates): **5/5 ✅** (F1-F5 + попутные фиксы контента)
+  - Track G (SEO): 1/4 (sitemap+robots уже были)
+  - Track H (content depth): 0/5
 
 > Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц**).
