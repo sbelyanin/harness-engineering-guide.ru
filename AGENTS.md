@@ -1,11 +1,13 @@
 # AGENTS.md
 
-Русскоязычное standalone-издание [harness-engineering-guide](https://github.com/nexu-io/harness-engineering-guide). Контент живёт в корне репо, Next.js-сайт — в `site/`. Подробный план развития — в [`ROADMAP.md`](ROADMAP.md), конвенция перевода — там же.
+Русскоязычное standalone-издание [harness-engineering-guide](https://github.com/nexu-io/harness-engineering-guide). Контент — в корне репо (`guide/`, `changelog/`, `skills/`), Next.js-сайт — в `site/`. Канон стиля — [`STYLE.md`](STYLE.md), план развития — [`ROADMAP.md`](ROADMAP.md).
 
 ## Критичные ловушки
 
-- **Контент не синхронизируется автоматически.** `site/lib/content.ts:8` читает из `process.cwd()/content/`, а эта директория **генерируется** скриптом `site/scripts/sync-content.sh` из корневых `guide/` и `changelog/` и **gitignore'нута**. Правка `guide/foo.md` **не повлияет** на сайт, пока не запущен sync. В `package.json` нет prebuild-хука.
-- **Next.js 16.2.3 — не та версия, что в тренировочных данных.** Перед правками кода Next.js читай `site/node_modules/next/dist/docs/01-app/`. Существующий `site/AGENTS.md` уже содержит это предупреждение — не удаляй.
+- **Контент не синхронизируется автоматически.** `site/lib/content.ts:8` читает из `process.cwd()/content/`, а эта директория **генерируется** скриптом `site/scripts/sync-content.sh` из корневых `guide/` и `changelog/` и **gitignore'нута**. Правка `guide/foo.md` **не повлияет** на сайт, пока не запущен sync. В `package.json` **нет prebuild-хука** — sync надо запускать вручную перед каждым `next build`.
+- **Next.js 16.2.3 — не та версия, что в тренировочных данных.** Перед правками кода Next.js читай `site/node_modules/next/dist/docs/01-app/`. Существующий `site/AGENTS.md` содержит это предупреждение — не удаляй.
+- **Mojibake-сканер в `content.ts`.** HTML post-processing в `processMarkdown` (`content.ts:116`) вызывает `typographRussian()`, который автоматически расставляет NBSP после русских предлогов/союзов и между числом+единицей. Code-блоки (`<code>`, `<pre>`) пропускаются через state-machine split. **Не вставляй NBSP в markdown-исходники вручную** — они применятся при рендере.
+- **RU-changelog фильтр.** Homepage feed «Что нового в RU-издании» (`site/app/page.tsx:11`) фильтрует записи по slug-префиксу `ru-`. Запись без префикса (например `changelog/2026-07-22.md`) в ленту **не попадёт**. Конвенция: `changelog/ru-YYYY-MM-DD.md`.
 
 ## Команды разработки
 
@@ -19,48 +21,45 @@ npm run build                            # 3. сборка = SSG в site/out/ + 
 
 # Локальная разработка
 cd site && npm run dev                   # http://localhost:3000, требует site/content/ — сначала sync
+
+# Typecheck без полной сборки
+cd site && npx tsc --noEmit
 ```
 
-- **Тестов и lint-скриптов нет.** `next build` запускает TypeScript-проверку — это единственный статический верификатор. Если нужен typecheck без полной сборки — `npx tsc --noEmit`.
+- **Тестов и lint-скриптов нет.** `next build` запускает TypeScript-проверку — единственный статический верификатор.
 - **Менеджер пакетов — только npm.** `package-lock.json` закоммичен; `pnpm-lock.yaml`/`yarn.lock` занесены в `.gitignore` умышленно. Если случайно создал — удали.
-- **Деплой:** push в `main` триггерит `.github/workflows/deploy-site.yml` → Cloudflare Pages. Локальный артефакт сборки — `site/out/` (статический экспорт через `output: "export"` + `trailingSlash: true`).
+- **Деплой:** push в `main` триггерит `.github/workflows/deploy-site.yml` → Cloudflare Pages. Локальный артефакт — `site/out/` (статический экспорт через `output: "export"` + `trailingSlash: true`).
 
-## Структура и регистрация контента
+## Регистрация контента
 
-- **Источники истины для гайда** (порядок приоритета при конфликте):
-  1. `guide/<slug>.md` — markdown-статья с frontmatter
-  2. `site/lib/guide-data.ts` — каноничный порядок разделов, sidebar-навигация, slug→title
-  3. `README.md` — оглавление для GitHub
 - **Новая статья = 3 обязательных шага**, иначе соберётся, но не появится в навигации:
   1. Создать `guide/<slug>.md` с frontmatter (`title`, `section`, `author`)
-  2. Зарегистрировать в `guide-data.ts` → `guideSections` (slug + короткий title для sidebar)
+  2. Зарегистрировать в `site/lib/guide-data.ts` → `guideSections` (slug + короткий title для sidebar)
   3. Добавить строку в таблицу `README.md`
-- **Frontmatter-конвенция** (`section` — один из: `getting-started`, `core-concepts`, `practice`, `reference`, `showcase`):
-  ```yaml
-  ---
-  title: "Заголовок статьи"
-  section: practice
-  author: Nexu
-  ---
-  ```
-- **Title fallback** в `content.ts:132`: `frontmatter.title || первый "# H1" в body || slug`. Prefer explicit `title:` — body H1 всё равно рендерится отдельно.
-- **Skills** — в `skills/<name>/` с `SKILL.md` (frontmatter: `name`, `description`) и опциональными `scripts/`. Перечисляются в `skills/README.md`.
+- **`section`** — один из: `getting-started`, `core-concepts`, `practice`, `reference`, `showcase`.
+- **Title fallback** в `content.ts:169`: `frontmatter.title || первый "# H1" в body || slug`. Prefer explicit `title:` — body H1 всё равно рендерится отдельно.
+- **Новый skill** — в `skills/<name>/` с `SKILL.md` (frontmatter: `name`, `description`) и опциональными `scripts/`. Python-скрипты — **только stdlib**, без внешних зависимостей (иначе сломается deploy). Зарегистрируй в таблице `skills/README.md`.
+- **Новая страница верхнего уровня** на сайте — требует ручного добавления в `site/components/Navigation.tsx` (`navLinks`).
 
-## Конвенция перевода и стиля
+## Стиль и конвенции
 
-- **Технические термины остаются на английском** (Harness, Agent, Context, Tool, Sandbox, Guardrails, Skill, Sub-Agent, Loop, Memory, Session). Переводится только связующая проза. Эталоны: `guide/russian-llm-harness.md`, `guide/on-prem-harness.md`.
-- **Standalone-русский**: один язык сайта. Нет маршрутов `/ru`/`/zh`, нет `LangSwitcher`, нет `isZh`, нет `zh-guide/`. Не добавляй языковые префиксы.
+Полный канон — в [`STYLE.md`](STYLE.md). Краткая выжимка того, что легко нарушить случайно:
+
+- **Технические термины — на английском:** Harness, Agent, Context, Tool, Sandbox, Guardrails, Skill, Sub-Agent, Loop, Memory, Session, Pipeline, Framework, Feature, Feedback, Dashboard, Backend, Deploy. Падежи через апостроф: `framework'ом`, `pipeline'ами`.
+- **Допустимые русизмы** (давно в техническом языке, не заменять): `баг`, `ветка` (git), `лог`, `токен`, `кэш`.
+- **Standalone-русский**: один язык сайта. Нет маршрутов `/ru`/`/zh`, нет `LangSwitcher`, нет `isZh`. Не добавляй языковые префиксы.
+- **Кавычки**: только `«ёлочки»` в прозе. ASCII `"..."` — только в code-блоках и YAML frontmatter.
+- **Тире**: `—` (em-dash) в прозе, `–` (en-dash) для диапазонов чисел (`1.2–1.5×`, `20–30%`), `-` (hyphen) для сложных слов (`CI-пайплайн`).
 - **Код, JSON, ASCII-диаграммы не переводятся** — сохраняются дословно. Переводятся только комментарии внутри по необходимости.
-- **Связанные руководства** см. в [`CONTRIBUTING.md`](CONTRIBUTING.md) и `ROADMAP.md` (раздел «Конвенция перевода»).
+- **Эталоны перевода:** `guide/russian-llm-harness.md`, `guide/on-prem-harness.md`. Подробнее — в [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Особенности кодовой базы сайта
 
 - **App Router, React 19, Tailwind v4** (`@tailwindcss/postcss`). Path-алис `@/*` → `site/*`.
 - **SSG-only**: каждая страница должна быть статически генерируемой. Не используй server-actions, dynamic API без `generateStaticParams`, middleware с запросами.
-- **Контент рендерится через `remark`/`remark-html`** в `content.ts` (НЕ через MDX). Инжекции ID для заголовков и `target="_blank"` для внешних ссылок делаются regex'ами в `processMarkdown` — учти при изменении.
-- **Навигация** захардкожена в `site/components/Navigation.tsx` (`navLinks`). Новая страница верхнего уровня требует ручного добавления.
+- **Контент рендерится через `remark`/`remark-html`** в `content.ts` (НЕ через MDX). В `processMarkdown` три post-processing шага: ID для заголовков → `target="_blank"` для внешних ссылок → `typographRussian` (NBSP). При изменении — учти порядок.
 
 ## Существующие инструкции
 
 - `site/AGENTS.md` — предупреждение о нестандартной версии Next.js (применимо только при работе в `site/`).
-- `site/CLAUDE.md` — просто `@AGENTS.md`, дублирует для Claude Code.
+- `site/CLAUDE.md` — `@AGENTS.md`, дублирует для Claude Code.
