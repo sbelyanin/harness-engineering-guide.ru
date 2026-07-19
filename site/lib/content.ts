@@ -112,7 +112,44 @@ async function processMarkdown(content: string): Promise<string> {
     '<a href="$1" target="_blank" rel="noopener noreferrer">'
   );
 
+  // Russian typography: NBSP after short prepositions/conjunctions and between numbers+units
+  html = typographRussian(html);
+
   return html;
+}
+
+/**
+ * Расставляет неразрывные пробелы (NBSP, U+00A0) в русском тексте:
+ *  - после одиночных предлогов/союзов (и, а, но, в, с, к, у, о, об, на, по, ...)
+ *  - между числом и короткой единицей/словом (10 кг, 5 минут, 128K токенов)
+ *
+ * Пропускает <code> и <pre> блоки, чтобы не ломать копируемый код.
+ */
+function typographRussian(html: string): string {
+  const NBSP = "\u00A0";
+  const preps = [
+    "и", "а", "но", "в", "с", "к", "у", "о", "об", "на", "по", "до", "из", "от",
+    "за", "для", "или", "что", "как", "не", "ни", "это", "же", "ли", "бы",
+    "я", "он", "мы", "вы", "она", "они", "оно",
+  ];
+  // NB: в JS regex без `u` flag кириллица работает как обычные символы; \b для кириллицы нерабочий,
+  // поэтому границы слов выражены явно через пробелы и кириллические классы.
+  const prepRe = new RegExp(` (${preps.join("|")}) ([А-Яа-яЁё])`, "g");
+  // Число + пробел + кириллическое слово (1-8 букв) + не-кириллица-впереди.
+  // Negative lookahead гарантирует, что мы захватили целое слово, а не префикс.
+  const numUnitRe = /(\d+) ([А-Яа-яЁё]{1,8})(?![А-Яа-яЁё])/g;
+
+  const applyToText = (text: string): string => {
+    let out = text.replace(prepRe, ` $1${NBSP}$2`);
+    out = out.replace(numUnitRe, `$1${NBSP}$2$3`);
+    return out;
+  };
+
+  // Разделяем на <code>/<pre> сегменты (skip) и остальное (apply)
+  const segments = html.split(/(<(?:code|pre)\b[^>]*>[\s\S]*?<\/(?:code|pre)>)/gi);
+  return segments
+    .map((seg, idx) => (idx % 2 === 1 ? seg : applyToText(seg)))
+    .join("");
 }
 
 export async function getContentBySlug(

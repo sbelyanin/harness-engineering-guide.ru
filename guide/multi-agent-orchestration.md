@@ -45,7 +45,7 @@ Multi-agent делит работу. Каждый агент получает с
 
 **Когда использовать:** задачи с естественными стадиями, где каждая требует другой экспертизы или tools. Пример: собрать данные → почистить и проанализировать → сгенерировать отчёт → вычитать и проверить факты.
 
-**Ключевое свойство:** каждый агент видит только вывод предыдущей стадии, а не весь накопленный context. Это фича — она принуждает к чётким интерфейсам между стадиями и предотвращает раздувание context.
+**Ключевое свойство:** каждый агент видит только вывод предыдущей стадии, а не весь накопленный context. Это feature — она принуждает к чётким интерфейсам между стадиями и предотвращает раздувание context.
 
 ### Fan-Out / Fan-In
 
@@ -315,4 +315,4 @@ Sub-agent, который висит — ждёт rate-limited-API, застря
 - [Context Engineering](context-engineering.md) — управление тем, что попадает в context window каждого агента
 - [Anthropic: Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) — паттерны multi-agent-координации
 - [OpenAI: Agents SDK — Multi-Agent](https://openai.github.io/openai-agents-python/) — примитивы handoff и оркестрации
-- [Microsoft AutoGen](https://microsoft.github.io/autogen/) — фреймворк паттернов multi-agent-диалогов
+- [Microsoft AutoGen](https://microsoft.github.io/autogen/) — framework паттернов multi-agent-диалогов

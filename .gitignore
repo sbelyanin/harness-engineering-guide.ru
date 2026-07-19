@@ -45,3 +45,6 @@ __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
+
+# TypeScript incremental build cache
+*.tsbuildinfo

@@ -53,7 +53,7 @@ harness-engineering-guide.ru/
 
 ## Этап 1 — Фундамент ✅
 
-Цель: рабочий скелет проекта + эталонная статья + проверка пайплайна.
+Цель: рабочий скелет проекта + эталонная статья + проверка pipeline'а.
 
 - [x] Корневые файлы: `LICENSE`, `.gitignore`, `CONTRIBUTING.md` (перевод), `README.md` (русское оглавление)
 - [x] Скелет `site/`: копия + адаптация под standalone-русский (убраны `/zh`, `LangSwitcher`, `isZh`)
@@ -124,8 +124,8 @@ harness-engineering-guide.ru/
 - [x] **A3.** Сверка заголовков `frontmatter.title ↔ H1 ↔ guide-data.ts`. → *Расхождения задокументированы ниже.*
 - [x] **A4.** Выровнять frontmatter во всех статьях: добавить `title` + `section` (где отсутствует) — единый стиль, надёжный fallback без H1.
 - [x] **A5.** Убрать дублирующие `# H1` mid-документа в `scheduling-and-automation.md` → превратить в `## H2` (3 вхождения). *(Оказались YAML/Python-комментариями внутри кодовых блоков — ложная тревога. Вместо этого добавлен недостающий body H1 для единообразия с остальными 25 статьями.)*
-- [ ] **A6.** Унифицировать русскую транслитерацию терминов (глоссарий как эталон): «эджайл» vs «agile», «пайплайн» vs «pipeline» и т.д.
-- [ ] **A7.** Прогнать тёмные углы: опечатки, пунктуация (неразрывные пробелы, тире), формулировки-кальки.
+- [x] **A6.** Унифицировать русскую транслитерацию терминов (глоссарий как эталон): `фреймворк→framework`, `пайплайн→pipeline`, `фича→feature`, `фидбек→feedback`, `дашборд→dashboard`, `бэкенд→backend`, `хэш→хеш`. Канон зафиксирован в [`STYLE.md`](STYLE.md).
+- [x] **A7.** Прогнать тёмные углы: ASCII `"..."`→`«ёлочки»` (23 замены), NBSP-расстановка через `typographRussian()` в `content.ts` (HTML-level, code-блоки пропускаются).
 
 ### 📝 Track B — Новые RU-оригинальные статьи
 
@@ -187,8 +187,8 @@ harness-engineering-guide.ru/
 - Этап 4: **завершён** ✅ (Reference + Showcase)
 - Этап 5: **завершён** ✅ (changelog, skills, README, .github)
 - Этап 6: **завершён** ✅ (финальная проверка)
-- Этап 7: **в работе** 🔄
-  - Track A (аудит): A1–A5 завершены ✅, A6–A7 в очереди (вычитка по требованию)
+- Этап 7: **в работе** 🔄 (практически завершён — остался только B6 по запросам сообщества)
+  - Track A (аудит): **A1–A7 завершены** ✅ (канон стиля зафиксирован в [`STYLE.md`](STYLE.md))
   - Track B (RU-статьи): 6/7 (russian-llm-harness, on-prem-harness, yandexgpt-and-gigachat, open-source-llm-stack, cyrillic-tokenization, compliance-152fz)
   - Track C (skills): 4/4 ✅ (abuse-hunter, ru-doc-summarizer, 152fz-audit, cyrillic-log-analyzer)
   - Track D (changelog/сообщество): 4/4 ✅ (ru-changelog, страница /community, CONTRIBUTING, лента на главной)

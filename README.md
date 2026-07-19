@@ -1,6 +1,6 @@
 <p align="center">
-  <a href="https://harness-guide.com">
-    <img src="site/public/banner.png" alt="Harness Engineering Guide" width="100%" />
+  <a href=«https://harness-guide.com»>
+    <img src=«site/public/banner.png» alt=«Harness Engineering Guide» width=«100%» />
   </a>
 </p>
 
@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/nexu-io/harness-engineering-guide/stargazers"><img src="https://img.shields.io/github/stars/nexu-io/harness-engineering-guide?style=social" alt="Stars"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
+  <a href=«https://github.com/nexu-io/harness-engineering-guide/stargazers»><img src=«https://img.shields.io/github/stars/nexu-io/harness-engineering-guide?style=social» alt=«Stars»></a>
+  <a href="LICENSE"><img src=«https://img.shields.io/badge/license-MIT-blue.svg» alt=«License»></a>
 </p>
 
 <p align="center">
@@ -90,7 +90,7 @@
 ## Как контрибьютить
 
 1. Зайдите в [**Issues → New Issue**](https://github.com/nexu-io/harness-engineering-guide/issues/new/choose)
-2. Выберите **"📬 Submit a Resource"**
+2. Выберите **«📬 Submit a Resource»**
 3. Заполните заголовок, URL и почему это релевантно
 
 Либо отправьте PR напрямую — см. [CONTRIBUTING.md](CONTRIBUTING.md).

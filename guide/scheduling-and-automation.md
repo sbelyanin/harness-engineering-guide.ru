@@ -159,7 +159,7 @@ Agent: "Got it — daily digest at 8:00 AM Asia/Shanghai (0:00 UTC). ✓"
 
 ### LangSmith Deployments Cron
 
-Платформа LangSmith от LangChain добавила cron-задачи для фичи Deployments (см. [документацию LangSmith Cron Jobs](https://docs.langchain.com/langsmith/cron-jobs)). Модель:
+Платформа LangSmith от LangChain добавила cron-задачи для feature Deployments (см. [документацию LangSmith Cron Jobs](https://docs.langchain.com/langsmith/cron-jobs)). Модель:
 
 1. Создаёте Deployment (хостимый LangGraph-агент)
 2. Определяете cron-расписание
