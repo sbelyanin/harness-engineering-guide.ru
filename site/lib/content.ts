@@ -21,8 +21,19 @@ export interface ContentItem {
   category: string;
   date: string;
   originalUrl: string;
+  readingTimeMinutes: number;
   contentHtml: string;
   headings: HeadingItem[];
+}
+
+/** Считает приблизительное время чтения в минутах (~150 wpm для русского).
+ *  Учитывает только prose — code-блоки вырезаются перед подсчётом слов. */
+function computeReadingTime(markdown: string): number {
+  const withoutFences = markdown.replace(/```[\s\S]*?```/g, "");
+  const withoutInlineCode = withoutFences.replace(/`[^`\n]+`/g, "");
+  // Слово = последовательность буквенно-цифровых символов (вкл. кириллицу)
+  const words = withoutInlineCode.match(/[\p{L}\p{N}]+/gu)?.length ?? 0;
+  return Math.max(1, Math.round(words / 150));
 }
 
 function extractHeadings(markdown: string): HeadingItem[] {
@@ -170,8 +181,12 @@ export async function getContentBySlug(
     description: data.description || extracted.description || "",
     author: data.author || extracted.author || "Nexu",
     category: data.category || extracted.category || "",
-    date: data.date || extracted.date || "",
+    // YAML парсит date: 2026-04-19 (без кавычек) в Date object — нормализуем к строке
+    date: data.date instanceof Date
+      ? data.date.toISOString().slice(0, 10)
+      : (data.date as string) || extracted.date || "",
     originalUrl: data.originalUrl || extracted.originalUrl || "",
+    readingTimeMinutes: computeReadingTime(content),
     contentHtml,
     headings,
   };

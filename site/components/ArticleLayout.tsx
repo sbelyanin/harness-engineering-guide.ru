@@ -20,6 +20,7 @@ interface ArticleLayoutProps {
   category?: string;
   date?: string;
   originalUrl?: string;
+  readingTimeMinutes?: number;
   contentHtml: string;
   headings: HeadingItem[];
   prev?: PrevNextItem | null;
@@ -36,6 +37,7 @@ export default function ArticleLayout({
   category,
   date,
   originalUrl,
+  readingTimeMinutes,
   contentHtml,
   headings,
   prev,
@@ -65,6 +67,14 @@ export default function ArticleLayout({
             )}
             {date && (
               <span className="text-sm text-[var(--color-text-muted)]">{date}</span>
+            )}
+            {readingTimeMinutes && readingTimeMinutes > 0 && (
+              <span className="text-sm text-[var(--color-text-muted)] inline-flex items-center gap-1">
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {readingTimeMinutes} мин
+              </span>
             )}
           </div>
           {originalUrl && (
