@@ -1,4 +1,6 @@
 ---
+title: "Дизайн Long-Running Harness"
+section: practice
 author: Nexu
 ---
 

@@ -1,4 +1,6 @@
 ---
+title: "Sandbox"
+section: practice
 author: Nexu
 ---
 

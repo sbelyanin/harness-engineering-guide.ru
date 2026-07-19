@@ -1,5 +1,6 @@
 ---
 title: "Initializer + Coding Agent — двухфазный паттерн Harness"
+section: practice
 author: Nexu
 date: "2026-04-19"
 description: "Почему одиночный agent-loop с compaction не может построить многодневный проект и как разбиение harness на фазу Initializer и повторяющуюся фазу Coding это чинит."

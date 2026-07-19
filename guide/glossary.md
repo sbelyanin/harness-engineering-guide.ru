@@ -1,4 +1,6 @@
 ---
+title: "Глоссарий"
+section: reference
 author: Nexu
 ---
 

@@ -1,4 +1,6 @@
 ---
+title: "Skill System"
+section: practice
 author: Nexu
 ---
 

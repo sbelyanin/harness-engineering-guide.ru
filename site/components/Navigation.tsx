@@ -8,6 +8,7 @@ import ThemeToggle from "./ThemeToggle";
 const navLinks = [
   { href: "/guide/what-is-harness", label: "Гайд" },
   { href: "/changelog", label: "Changelog" },
+  { href: "/community", label: "Сообщество" },
 ];
 
 export default function Navigation() {

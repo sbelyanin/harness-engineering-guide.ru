@@ -1,6 +1,7 @@
 ---
 author: Nexu
 title: "Битва за миллиард токенов: релиз нашего Windows-клиента OpenClaw"
+section: showcase
 description: "Время сборки 15мин→4мин, установки 10мин→2мин, полностью автоматизированный CI, декуплинг обновлений macOS/Windows — как мы перестроили pipeline упаковки Electron"
 category: Engineering
 date: "2026-04-15"

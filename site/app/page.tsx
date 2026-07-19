@@ -1,11 +1,65 @@
 import Hero from "@/components/Hero";
 import Link from "next/link";
 import { guideSections } from "@/lib/guide-data";
+import { getAllContent } from "@/lib/content";
 
-export default function HomePage() {
+export default async function HomePage() {
+  // RU-changelog: записи с slug-префиксом "ru-" (см. ROADMAP Track D1).
+  // Показываем последние 5 как ленту «что нового в RU-издании».
+  const allChangelog = await getAllContent("changelog");
+  const ruNews = allChangelog
+    .filter((entry) => entry.slug.startsWith("ru-"))
+    .sort((a, b) => (b.date || "").localeCompare(a.date || ""))
+    .slice(0, 5);
+
   return (
     <div>
       <Hero />
+
+      {/* RU-edition news feed */}
+      {ruNews.length > 0 && (
+        <section className="py-12 border-t border-[var(--color-border)]">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex items-baseline justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-px bg-[var(--color-accent-cyan)]" />
+                <span className="text-xs font-medium uppercase tracking-wider text-[var(--color-accent-cyan)]">
+                  Что нового в RU-издании
+                </span>
+              </div>
+              <Link
+                href="/changelog"
+                className="text-xs text-[var(--color-text-muted)] hover:text-[var(--color-accent-cyan)] transition-colors"
+              >
+                Весь changelog →
+              </Link>
+            </div>
+            <div className="space-y-3">
+              {ruNews.map((entry) => (
+                <Link
+                  key={entry.slug}
+                  href="/changelog"
+                  className="group block p-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:border-[var(--color-accent-cyan)] transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-1">
+                    <time className="text-xs font-mono text-[var(--color-accent-cyan)]">
+                      {entry.date}
+                    </time>
+                  </div>
+                  <h3 className="text-sm font-medium text-[var(--color-text-primary)] group-hover:text-[var(--color-accent-cyan)] transition-colors">
+                    {entry.title}
+                  </h3>
+                  {entry.description && (
+                    <p className="text-xs text-[var(--color-text-muted)] mt-1 line-clamp-2">
+                      {entry.description}
+                    </p>
+                  )}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Guide Sections */}
       {guideSections.map((section) => (

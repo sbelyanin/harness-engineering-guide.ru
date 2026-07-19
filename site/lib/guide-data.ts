@@ -44,6 +44,11 @@ export const guideSections: GuideSection[] = [
       { slug: "agent-teams", title: "Agent Teams" },
       { slug: "initializer-coding-pattern", title: "Паттерн Initializer + Coding Agent" },
       { slug: "russian-llm-harness", title: "Russian LLM в Harness" },
+      { slug: "on-prem-harness", title: "On-Prem Harness: air-gapped" },
+      { slug: "yandexgpt-and-gigachat", title: "YandexGPT и GigaChat" },
+      { slug: "open-source-llm-stack", title: "Open-Source LLM-стек" },
+      { slug: "cyrillic-tokenization", title: "Cyrillic Tokenization" },
+      { slug: "compliance-152fz", title: "Compliance: 152-ФЗ" },
     ],
   },
   {

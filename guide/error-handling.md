@@ -1,4 +1,6 @@
 ---
+title: "Обработка ошибок"
+section: practice
 author: Nexu
 ---
 

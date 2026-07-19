@@ -1,4 +1,6 @@
 ---
+title: "Harness vs. Framework"
+section: getting-started
 author: Nexu
 ---
 

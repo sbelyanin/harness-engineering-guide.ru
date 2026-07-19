@@ -1,4 +1,6 @@
 ---
+title: "Agentic Loop"
+section: core-concepts
 author: Nexu
 ---
 

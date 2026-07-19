@@ -65,6 +65,11 @@
 | [Agent Teams](guide/agent-teams.md) | 16 параллельных Claude собрали C-компилятор на 100K строк. Ralph-loop, git-координация, GCC-as-oracle. |
 | [Initializer + Coding Agent Pattern](guide/initializer-coding-pattern.md) | Двухфазный harness для долгоиграющих агентов. Feature list JSON, startup ritual, clean state commit. |
 | [Russian LLM в Harness](guide/russian-llm-harness.md) | Особенности построения harness под русскоязычные модели: токенизация, tool-calling, локальный контекст. |
+| [On-Prem Harness: air-gapped](guide/on-prem-harness.md) | Запуск harness в изолированном контуре: локальный inference, vending tools, подписанные bundle’ы, аудит. |
+| [YandexGPT и GigaChat](guide/yandexgpt-and-gigachat.md) | Подключение российских коммерческих моделей: IAM-токены Yandex, OAuth GigaChat, adapter над сообщениями, failover. |
+| [Open-Source LLM-стек](guide/open-source-llm-stack.md) | vLLM/Ollama/TGI как замена API-провайдерам: квантизация, throughput, мониторинг, failover. |
+| [Cyrillic Tokenization](guide/cyrillic-tokenization.md) | Токен-экономика русского текста: измерение penalty, пересчёт budget, bilingual strategy. |
+| [Compliance: 152-ФЗ](guide/compliance-152fz.md) | Harness под персональные данные: классификация ПДн, цели обработки, pseudonymization, право на удаление, журнал доступа. |
 
 ## Reference / Справочник
 

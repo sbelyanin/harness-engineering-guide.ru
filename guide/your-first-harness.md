@@ -1,4 +1,6 @@
 ---
+title: "Ваш первый Harness"
+section: getting-started
 author: Nexu
 ---
 

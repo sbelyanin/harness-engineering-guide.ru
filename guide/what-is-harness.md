@@ -1,4 +1,6 @@
 ---
+title: "Что такое Harness?"
+section: getting-started
 author: Nexu
 ---
 

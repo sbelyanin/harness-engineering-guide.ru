@@ -1,6 +1,7 @@
 ---
 author: Harness Engineering Guide (RU)
 title: "Russian LLM в Harness"
+section: practice
 description: "Особенности построения harness под русскоязычные модели: отличия в токенизации, tool-calling, культурном контексте и требованиях к безопасности."
 category: Practice
 date: "2026-07-18"

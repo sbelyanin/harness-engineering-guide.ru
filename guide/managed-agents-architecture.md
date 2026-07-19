@@ -1,4 +1,6 @@
 ---
+title: "Архитектура Managed Agents: отвязываем Brain от Hands"
+section: practice
 author: Nexu
 ---
 

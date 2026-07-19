@@ -1,4 +1,6 @@
 ---
+title: "Context Engineering"
+section: practice
 author: Nexu
 ---
 

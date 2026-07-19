@@ -1,5 +1,6 @@
 ---
 title: "Agent Teams: параллельные Claude строят настоящее ПО"
+section: practice
 author: Nexu
 date: "2026-04-19"
 description: "Как флот из 16 параллельных Claude-агентов собрал C-компилятор на 100K строк на Rust — и чему это учит в дизайне harness."

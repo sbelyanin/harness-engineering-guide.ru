@@ -1,4 +1,6 @@
 ---
+title: "Permission-системы на основе классификатора (Auto Mode)"
+section: practice
 author: Nexu
 date: 2026-04-19
 tags: [guardrails, classifier, permissions, security]

@@ -1,4 +1,6 @@
 ---
+title: "Memory & Context"
+section: core-concepts
 author: Nexu
 ---
 

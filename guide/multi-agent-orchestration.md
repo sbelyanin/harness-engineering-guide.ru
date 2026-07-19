@@ -1,4 +1,6 @@
 ---
+title: "Multi-Agent Orchestration"
+section: practice
 author: Nexu
 ---
 

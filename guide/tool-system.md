@@ -1,4 +1,6 @@
 ---
+title: "Tool System"
+section: core-concepts
 author: Nexu
 ---
 

@@ -1,6 +1,7 @@
 ---
 author: Nexu
 title: "Сравнение реализаций"
+section: reference
 ---
 
 # Сравнение основных реализаций Harness

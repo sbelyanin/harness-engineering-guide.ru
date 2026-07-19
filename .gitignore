@@ -1,6 +1,12 @@
 # Dependencies
 node_modules/
 
+# Lockfiles — проект использует npm (package-lock.json). pnpm/yarn артефакты
+# игнорируются, чтобы не плодить разные менеджеры пакетов.
+pnpm-lock.yaml
+pnpm-workspace.yaml
+yarn.lock
+
 # Build outputs
 .next/
 out/

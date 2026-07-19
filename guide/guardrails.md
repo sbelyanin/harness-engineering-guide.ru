@@ -1,4 +1,6 @@
 ---
+title: "Guardrails"
+section: core-concepts
 author: Nexu
 ---
 
