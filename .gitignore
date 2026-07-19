@@ -39,3 +39,9 @@ Thumbs.db
 
 # Local test files
 *.local
+
+# Python artifacts (skills/*/scripts)
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/

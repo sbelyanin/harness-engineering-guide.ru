@@ -145,9 +145,9 @@ harness-engineering-guide.ru/
 
 - [x] `skills/abuse-hunter/` — перевод оригинального skill.
 - [x] **C1.** `skills/ru-doc-summarizer/` — саммаризация русскоязычных документов (ГОСТы, регламенты, длинные треды) + chunker на Python.
-- [ ] **C2.** `skills/cyrillic-log-analyzer/` — разбор логов/текстов с перемешанной кодировкой/транслитом.
+- [x] **C2.** `skills/cyrillic-log-analyzer/` — разбор логов/текстов с перемешанной кодировкой/транслитом: 4 подкоманды (analyze/fix/translit/layout), mojibake UTF-8↔CP1251/Latin-1, 3 схемы транслитерации, layout switch.
 - [x] **C3.** `skills/152fz-audit/` — аудит chat-логов агента на наличие ПДn, попавших в context (regex + pseudonymization, Luhn/ИНН-check).
-- [ ] **C4.** Расширить `skills/README.md` таблицей всех новых skills. *(частично — таблица обновляется по мере добавления)*
+- [x] **C4.** Расширить `skills/README.md` таблицей всех новых skills (4 пакета: 1 перевод + 3 RU-оригинала).
 
 ### 🔄 Track D — Свежий RU-changelog + сообщество
 
@@ -190,7 +190,7 @@ harness-engineering-guide.ru/
 - Этап 7: **в работе** 🔄
   - Track A (аудит): A1–A5 завершены ✅, A6–A7 в очереди (вычитка по требованию)
   - Track B (RU-статьи): 6/7 (russian-llm-harness, on-prem-harness, yandexgpt-and-gigachat, open-source-llm-stack, cyrillic-tokenization, compliance-152fz)
-  - Track C (skills): 3/4 (abuse-hunter, ru-doc-summarizer, 152fz-audit)
+  - Track C (skills): 4/4 ✅ (abuse-hunter, ru-doc-summarizer, 152fz-audit, cyrillic-log-analyzer)
   - Track D (changelog/сообщество): 4/4 ✅ (ru-changelog, страница /community, CONTRIBUTING, лента на главной)
 
-> Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **3** (+2 RU-оригинальных). Сборка зелёная (**39 SSG-страниц**).
+> Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц**).
