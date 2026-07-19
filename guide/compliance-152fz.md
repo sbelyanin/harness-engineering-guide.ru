@@ -259,6 +259,43 @@ def pdn_aware_tool(tool: Tool) -> Tool:
 - Cloudflare Workers / Vercel Edge можно для фронта, но не для primary DB writes
 - Logs в реальном времени — лучше в РФ-логирование, не в зарубежный Datadog/Sentry
 
+## Пример заполненного аудита
+
+Типичный кейс: **support-агент для SaaS-продукта**. Пользователь пишет в чат → harness отвечает на основе базы знаний + нескольких tools (поиск тикетов, проверка статуса аккаунта).
+
+| Поле аудита | Заполнение |
+|-------------|-----------|
+| **Категории ПДн** | contact (email, имя), account (user_id, plan, payment_status) |
+| **УЗ (уровень защищённости)** | УЗ-2: спец. категории ПДн не обрабатываются, но есть risk для субъекта при утечке |
+| **Цель обработки** | Оказание support-услуг по договору-оферте |
+| **Согласие** | Галка при регистрации: «Я согласен на обработку ПДн для оказания support-услуг» |
+| **Memory TTL** | short_term: 24 часа (активная сессия), long_term: 30 дней (для follow-up) |
+| **Transborder** | Нет — primary DB в РФ (Yandex Cloud ru-central1), LLM-провайдер GigaChat |
+| **Pseudonymization** | email → `user_abc123@invalid` перед каждым LLM-call'ом; user_id сохраняется (не ПДн) |
+| **Журнал доступа** | `tool_call: get_ticket(id=12345) → status: closed`, без ПДн в payload |
+| **Право на удаление** | API endpoint `/privacy/forget-me` → cascade-delete session + memory + audit-log payload (метаданные остаются) |
+| **DPO** | Иванов И.И., appointed@company.ru |
+
+### Sample journal entry
+
+```json
+{
+  "ts": "2026-07-19T14:23:01Z",
+  "session_id": "sess_abc123",
+  "user_hash": "sha256:9f2c...",
+  "tool": "get_ticket",
+  "tool_input_hash": "sha256:7e3a...",
+  "tool_output_hash": "sha256:b8f1...",
+  "pdn_categories_seen": ["contact"],
+  "action": "pseudonymized_before_llm",
+  "status": "ok"
+}
+```
+
+Хеши, не payload. По `tool_input_hash` можно сверить с primary DB при разборе инцидента, но сам журнал ПДн не содержит.
+
+> **Автоматизация:** [`skills/152fz-audit`](/skills/152fz-audit/) сканирует chat-логи на ПДн по regex'ам (ИНН, СНИЛС, паспорт, email, телефон) и pseudonymizes их. Запускайте перед каждым выкатом eval-датасета.
+
 ## Чек-лист перед production-запуском
 
 - [ ] Определены категории ПДн, попадающих в harness

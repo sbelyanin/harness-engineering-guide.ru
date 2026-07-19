@@ -29,6 +29,26 @@ date: "2026-07-19"
 
 Точные цифры и доступность меняются — сверяйтесь с официальной документацией провайдера перед выкаткой.
 
+### Сравнение под harness-задачи
+
+| Модель | Контекст | Tool-calling | Latency (typical) | Сильные стороны | Слабые стороны |
+|--------|----------|--------------|-------------------|-----------------|----------------|
+| **YandexGPT-lite** | 8K | partial, Chat Completion | 1–3 s | Дёшево, быстро, RU-corpus | Слабый tool-call на сложных схемах |
+| **YandexGPT (full)** | 32K | partial, function calling | 3–8 s | Лучшее качество RU-ответов | Дороже, ограниченный RPM в free-tier |
+| **GigaChat-Pro** | 32K | functions API | 2–5 s | Хороший tool-call, AWS-style | OAuth-ротация, протухает за 30 мин |
+| **GigaChat-MAX** | до 128K | improved function calling | 5–12 s | Большой контекст, лучшее reasoning | Закрытый доступ, дорогой |
+| **Tinkoff tt-large** | 32K | partial | 2–6 s | Гибкая интеграция с T-Bank экосистемой | Меньше ecosystem, нет SDK |
+| **Local vLLM (Qwen2.5-32B)** | 32K–128K | через prompt | зависит от железа | Air-gapped, zero per-token cost | Нужен GPU, выше latency на CPU |
+
+**Под что брать:**
+
+- **Простые chat/handoff** → YandexGPT-lite или GigaChat base (дёшево, достаточно качества)
+- **Tool-calling heavy** → GigaChat-Pro или GigaChat-MAX (лучший native function calling среди РФ)
+- **Long-context reasoning** → GigaChat-MAX (128K) или локальный Qwen2.5-32B
+- **152-ФЗ УЗ-3+ / air-gap** → только local vLLM (см. [Open-Source LLM-стек](/guide/open-source-llm-stack))
+
+> **Cost-trap:** YandexGPT тарифицирует каждое сообщение отдельно от токенов; GigaChat — за токены. На длинных диалогах с memory это даёт расхождение в 2–3×.
+
 ## Слой 1. Аутентификация
 
 ### YandexGPT — IAM-токены

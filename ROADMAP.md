@@ -117,12 +117,12 @@ harness-engineering-guide.ru/
 
 Цель: превратить функциональный сайт в зрелый продукт — улучшить UX чтения, добавить автоматические защиты от регрессий, поднять SEO-видимость, углубить ключевой контент. Работа ведётся параллельно по **четырём трекам**.
 
-### 🧩 Track E — Site features (UX чтения и discovery)
+### 🧩 Track E — Site features (UX чтения и discovery) ✅
 
-- [ ] **E1.** Reading-time в ArticleLayout (word-count из raw markdown, ~180 wpm для русского).
-- [ ] **E2.** Блок «Связанные статьи» в конце каждой статьи (по совпадению `section` + shared keywords).
-- [ ] **E3.** RSS-фид `/changelog/rss.xml` (отдельный от переводов upstream, только `ru-` prefix).
-- [ ] **E4.** Client-side поиск по гайду: prebuild-индекс в `site/content/search-index.json` + Flexsearch (zero-runtime-deps на SSG).
+- [x] **E1.** Reading-time в ArticleLayout (`computeReadingTime` в content.ts, ~150 wpm, NB: вырезает code-блоки).
+- [x] **E2.** Блок «Связанные статьи» (`getRelatedArticles` в guide-data.ts: +5 за ту же section, +1 за общий title-токен).
+- [x] **E3.** RSS-фид `/feed.xml` (RSS 2.0 + Atom self-link; только `ru-` prefix; autodiscovery в layout metadata).
+- [x] **E4.** Client-side поиск: `/search.json` (static, ~200KB на 31 статью) + `SearchDialog` (zero-dep fuzzy substring, keyboard nav ↑↓/Enter/Esc, shortcut `/` или `Cmd/Ctrl+K`).
 - [x] **E0.** *(уже было)* TOC-сайдбар для длинных статей через `TableOfContents`.
 
 ### 🛡 Track F — Quality gates (защита от регрессий) ✅
@@ -139,10 +139,10 @@ harness-engineering-guide.ru/
 ### 📈 Track G — SEO & discovery
 
 - [x] **G0.** *(уже было)* `app/sitemap.ts`, `app/robots.ts`.
-- [ ] **G1.** Sitemap: добавить `/community`, использовать `lastModified` из git mtime статьи (не `new Date()`).
-- [ ] **G2.** JSON-LD `Article` schema в `<head>` для guide-страниц (через `generateMetadata` → `alternates`/`other`).
+- [x] **G1.** Sitemap: добавлен `/community`, `lastModified` из frontmatter.date или fs.mtime, приоритеты + changeFrequency, anchor-ссылки для changelog.
+- [x] **G2.** JSON-LD `Article` schema в `<script type="application/ld+json">` на guide-страницах.
 - [ ] **G3.** OG-изображения: статичный SVG-шаблон с заголовком статьи → рендер в PNG (без runtime-deps).
-- [ ] **G4.** `alternates.canonical` в `generateMetadata` для каждой страницы.
+- [x] **G4.** `alternates.canonical` в `generateMetadata` для guide-страниц + OpenGraph/Twitter cards.
 
 ### 📚 Track H — Content depth (расширение ключевых статей)
 
@@ -229,9 +229,9 @@ harness-engineering-guide.ru/
 - Этап 1–6: **завершены** ✅ (полный перевод 25 статей оригинала + changelog + skills + .github)
 - Этап 7: **практически завершён** 🔄 (Track A/C/D ✅, B6 — по запросам сообщества)
 - Этап 8: **в работе** 🔄
-  - Track E (site features): 1/5 (TOC уже был, остальное — E1–E4)
+  - Track E (site features): **5/5 ✅** (reading time, related, RSS, search, TOC)
   - Track F (quality gates): **5/5 ✅** (F1-F5 + попутные фиксы контента)
-  - Track G (SEO): 1/4 (sitemap+robots уже были)
+  - Track G (SEO): 4/5 (sitemap+robots+JSON-LD+canonical; OG-images pending)
   - Track H (content depth): 0/5
 
 > Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц**).

@@ -210,6 +210,85 @@ async def local_llm_healthcheck() -> bool:
 - **Токенизатор должен поддерживать кириллицу эффективно** — Qwen2.5 и Llama 3 это делают хорошо, старые Llama 2 — плохо. См. [Cyrillic Tokenization](/guide/cyrillic-tokenization)
 - **Fine-tuning** — если у вас есть domain corpus (тикетты, регламенты), LoRA-адаптер на 16K примеров поднимает quality на 15–30% над base
 
+## Quickstart: docker-compose
+
+Минимальный runnable-стек для локальной разработки: vLLM как inference-движок + OpenWebUI как ручной testbed. Не для production (нужны persistent volumes, monitoring, несколько worker'ов).
+
+```yaml
+# docker-compose.yml — локальный LLM-стек для harness-разработки
+# Запуск: docker compose up -d
+# Endpoint для harness: http://localhost:8000/v1/chat/completions
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      # Кэш весов модели переживает перезапуск контейнера
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN}  # для gated-моделей (Qwen2.5 требует accept license)
+    # Qwen2.5-32B-Instruct: хватает одной A100 (80GB) или двух A10G (24GB каждая)
+    command: >
+      --model Qwen/Qwen2.5-32B-Instruct
+      --tensor-parallel-size 1
+      --max-model-len 32768
+      --gpu-memory-utilization 0.9
+      --enable-auto-tool-choice
+      --tool-call-parser hermes
+      --served-model-name ru-harness-default
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [gpu]
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    ports:
+      - "3000:8080"
+    environment:
+      - OPENAI_API_BASE_URL=http://vllm:8000/v1
+      # OpenAI-совместимый клиент ходит в локальный vLLM
+      - OPENAI_API_KEY=dummy  # vLLM по умолчанию не валидирует ключ
+    volumes:
+      - openwebui-data:/app/backend/data
+    depends_on:
+      - vllm
+
+volumes:
+  openwebui-data:
+```
+
+### Проверка
+
+```bash
+# 1. Подняли
+docker compose up -d
+
+# 2. Ждём загрузки весов (1–5 минут в зависимости от bandwidth)
+docker compose logs -f vllm | grep "Application startup complete"
+
+# 3. Smoke-test — должно вернуть JSON с choices
+curl http://localhost:8000/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "ru-harness-default",
+    "messages": [{"role": "user", "content": "Проверка: ответь «ок»."}],
+    "max_tokens": 10
+  }'
+
+# 4. UI для ручных тестов: http://localhost:3000
+```
+
+### Что дальше
+
+- **Production:** добавить Prometheus + Grafana для GPU monitoring (см. [Слой 5](#слой-5-мониторинг-и-эксплуатация))
+- **Multi-node:** Ray-cluster вместо docker-compose (см. vLLM docs)
+- **Air-gap:** скачать веса через `huggingface-cli download` на staging-машине, перенести в air-gap через подписанный артефакт (см. [On-Prem Harness](/guide/on-prem-harness))
+
 ## Антипаттерны
 
 - **Брать 70B-модель на одну A10G** — квантизация сожмёт, но latency будет 5–15 sec/token, agent-loop умрёт
