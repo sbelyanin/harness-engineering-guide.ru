@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThemeToggle from "./ThemeToggle";
+import SearchDialog from "./SearchDialog";
 
 const navLinks = [
   { href: "/guide/what-is-harness", label: "Гайд" },
@@ -14,6 +15,26 @@ const navLinks = [
 export default function Navigation() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Global keyboard shortcut: "/" или Cmd/Ctrl+K открывает поиск
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (
+        (e.key === "k" && (e.metaKey || e.ctrlKey)) ||
+        (e.key === "/" && !e.metaKey && !e.ctrlKey && !e.altKey)
+      ) {
+        const target = e.target as HTMLElement;
+        const tag = target.tagName;
+        // Не открываем, если пользователь печатает в input/textarea/contenteditable
+        if (tag === "INPUT" || tag === "TEXTAREA" || target.isContentEditable) return;
+        e.preventDefault();
+        setSearchOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[var(--color-bg-primary)]/80 backdrop-blur-md border-b border-[var(--color-border)]">
@@ -41,6 +62,19 @@ export default function Navigation() {
 
           {/* Desktop nav */}
           <div className="hidden sm:flex items-center gap-6">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="flex items-center gap-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors"
+              aria-label="Поиск"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+              <span className="hidden lg:inline">Поиск</span>
+              <kbd className="hidden lg:inline-block text-[10px] px-1.5 py-0.5 rounded border border-[var(--color-border)] text-[var(--color-text-muted)]">
+                /
+              </kbd>
+            </button>
             {navLinks.map((link) => {
               const isActive = pathname.startsWith(link.href);
               return (
@@ -69,33 +103,44 @@ export default function Navigation() {
           </div>
 
           {/* Mobile menu button */}
-          <button
-            className="sm:hidden text-[var(--color-text-muted)]"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="sm:hidden flex items-center gap-3">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
+              aria-label="Поиск"
             >
-              {mobileOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
-          </button>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </button>
+            <button
+              className="text-[var(--color-text-muted)]"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {mobileOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -127,6 +172,8 @@ export default function Navigation() {
           </div>
         </div>
       )}
+
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </nav>
   );
 }

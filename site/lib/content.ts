@@ -210,3 +210,52 @@ export async function getAllContent(
   );
   return items;
 }
+
+export interface SearchDocument {
+  slug: string;
+  title: string;
+  section: string;
+  description: string;
+  /** Plain-text body (lowercased) для substring search.
+   *  Code-блоки и frontmatter вырезаны, остальная разметка тоже. */
+  text: string;
+}
+
+/** Возвращает поисковый индекс всех guide-статей.
+ *  Используется route handler'ом /search.json для генерации статики. */
+export async function getSearchIndex(): Promise<SearchDocument[]> {
+  const slugs = getSlugs("guide");
+  return Promise.all(
+    slugs.map(async (slug) => {
+      const fullPath = path.join(contentDirectory, "guide", `${slug}.md`);
+      const raw = fs.readFileSync(fullPath, "utf8");
+      const { data, content } = matter(raw);
+
+      // Вырезаем fenced code-блоки и inline-code
+      const withoutCode = content
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/`[^`\n]+`/g, " ");
+      // Убираем markdown-разметку, оставляем только текст
+      const text = withoutCode
+        .replace(/^#+\s+/gm, "") // заголовки
+        .replace(/!?\[([^\]]*)\]\([^)]*\)/g, "$1") // ссылки [text](url) → text
+        .replace(/[*_~]/g, "") // выделение
+        .replace(/^\s*[-*+]\s+/gm, "") // списки
+        .replace(/^\s*\d+\.\s+/gm, "") // нумерованные списки
+        .replace(/^\s*>\s+/gm, "") // цитаты
+        .replace(/\|/g, " ") // таблицы
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase()
+        .slice(0, 4000); // ограничиваем размер для индекса
+
+      return {
+        slug,
+        title: (data.title as string) || slug,
+        section: (data.section as string) || "",
+        description: (data.description as string) || "",
+        text,
+      };
+    })
+  );
+}
