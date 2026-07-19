@@ -21,6 +21,13 @@ export const metadata: Metadata = {
   title: "Harness Engineering Guide",
   description:
     "Открытый гайд по созданию runtime для AI-агентов. От базовых концепций до production-паттернов.",
+  metadataBase: new URL("https://harness-guide.com"),
+  alternates: {
+    canonical: "/",
+    types: {
+      "application/rss+xml": [{ url: "/feed.xml", title: "RU-издание — Changelog" }],
+    },
+  },
   icons: {
     icon: "/favicon.svg",
   },

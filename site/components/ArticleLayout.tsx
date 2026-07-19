@@ -13,6 +13,11 @@ interface PrevNextItem {
   prefix?: string;
 }
 
+interface RelatedItem {
+  slug: string;
+  title: string;
+}
+
 interface ArticleLayoutProps {
   title: string;
   description?: string;
@@ -27,6 +32,8 @@ interface ArticleLayoutProps {
   next?: PrevNextItem | null;
   prevPrefix?: string;
   nextPrefix?: string;
+  related?: RelatedItem[];
+  relatedPrefix?: string;
   embedded?: boolean;
   sidebar?: React.ReactNode;
 }
@@ -44,6 +51,8 @@ export default function ArticleLayout({
   next,
   prevPrefix,
   nextPrefix,
+  related,
+  relatedPrefix = "/guide",
   embedded = false,
   sidebar,
 }: ArticleLayoutProps) {
@@ -132,6 +141,28 @@ export default function ArticleLayout({
               <div />
             )}
           </nav>
+        )}
+
+        {/* Related articles */}
+        {related && related.length > 0 && (
+          <section className="mt-12 pt-8 border-t border-[var(--color-border)]">
+            <h2 className="text-sm font-semibold uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
+              Связанные статьи
+            </h2>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {related.map((item) => (
+                <Link
+                  key={item.slug}
+                  href={`${relatedPrefix}/${item.slug}`}
+                  className="group block p-4 rounded-lg border border-[var(--color-border)] hover:border-[var(--color-accent-cyan)]/50 hover:bg-[var(--color-accent-cyan-dim)] transition-colors"
+                >
+                  <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors block">
+                    {item.title}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </section>
         )}
       </article>
 

@@ -1,5 +1,5 @@
 import { getContentBySlug, getSlugs } from "@/lib/content";
-import { guideOrder, guideChapters } from "@/lib/guide-data";
+import { guideOrder, guideChapters, getRelatedArticles } from "@/lib/guide-data";
 import ArticleLayout from "@/components/ArticleLayout";
 import GuideSidebar from "@/components/GuideSidebar";
 
@@ -50,6 +50,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       ? { slug: guideOrder[currentIndex + 1], title: guideChapters[guideOrder[currentIndex + 1]] }
       : null;
 
+  const related = getRelatedArticles(slug, 3);
+
   // JSON-LD structured data (Schema.org Article)
   const jsonLd = {
     "@context": "https://schema.org",
@@ -94,6 +96,8 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           headings={content.headings}
           prev={prev ? { ...prev, prefix: "/guide" } : undefined}
           next={next ? { ...next, prefix: "/guide" } : undefined}
+          related={related}
+          relatedPrefix="/guide"
           embedded
         />
       </div>

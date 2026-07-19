@@ -15,7 +15,16 @@ export default async function ChangelogPage() {
         Changelog
       </h1>
       <p className="text-[var(--color-text-secondary)] mb-12">
-        Обновления и изменения Harness Engineering Guide.
+        Обновления и изменения Harness Engineering Guide.{" "}
+        <a
+          href="/feed.xml"
+          className="inline-flex items-center gap-1 text-[var(--color-accent-cyan)] hover:underline"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
+          </svg>
+          RSS
+        </a>
       </p>
 
       <div className="relative">
