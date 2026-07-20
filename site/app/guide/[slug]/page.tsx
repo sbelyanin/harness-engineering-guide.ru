@@ -27,11 +27,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       type: "article",
       publishedTime: content.date || undefined,
       authors: content.author ? [content.author] : undefined,
+      images: [{ url: "/banner.png", width: 1200, height: 630, alt: content.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: content.title,
       description: content.description,
+      images: ["/banner.png"],
     },
   };
 }

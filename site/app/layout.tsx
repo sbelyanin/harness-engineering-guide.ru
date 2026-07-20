@@ -28,6 +28,21 @@ export const metadata: Metadata = {
       "application/rss+xml": [{ url: "/feed.xml", title: "RU-издание — Changelog" }],
     },
   },
+  openGraph: {
+    title: "Harness Engineering Guide",
+    description:
+      "Открытый гайд по созданию runtime для AI-агентов. От базовых концепций до production-паттернов.",
+    siteName: "Harness Engineering Guide (RU)",
+    locale: "ru_RU",
+    images: [{ url: "/banner.png", width: 1200, height: 630, alt: "Harness Engineering Guide" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Harness Engineering Guide",
+    description:
+      "Открытый гайд по созданию runtime для AI-агентов. От базовых концепций до production-паттернов.",
+    images: ["/banner.png"],
+  },
   icons: {
     icon: "/favicon.svg",
   },

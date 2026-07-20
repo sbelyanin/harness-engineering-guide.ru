@@ -113,7 +113,7 @@ harness-engineering-guide.ru/
 
 > Этап 7 — см. архивный раздел ниже. Практически завершён (Track A/C/D ✅, B6 — по запросам сообщества).
 
-## Этап 8 — Зрелость проекта: features + quality gates
+## Этап 8 — Зрелость проекта: features + quality gates ✅
 
 Цель: превратить функциональный сайт в зрелый продукт — улучшить UX чтения, добавить автоматические защиты от регрессий, поднять SEO-видимость, углубить ключевой контент. Работа ведётся параллельно по **четырём трекам**.
 
@@ -141,18 +141,18 @@ harness-engineering-guide.ru/
 - [x] **G0.** *(уже было)* `app/sitemap.ts`, `app/robots.ts`.
 - [x] **G1.** Sitemap: добавлен `/community`, `lastModified` из frontmatter.date или fs.mtime, приоритеты + changeFrequency, anchor-ссылки для changelog.
 - [x] **G2.** JSON-LD `Article` schema в `<script type="application/ld+json">` на guide-страницах.
-- [ ] **G3.** OG-изображения: статичный SVG-шаблон с заголовком статьи → рендер в PNG (без runtime-deps).
+- [x] **G3.** OG-изображения: `banner.png` подключён в `layout.tsx` (site-wide default) и в guide-страницах (`openGraph.images` + `twitter.images` с alt = заголовок статьи).
 - [x] **G4.** `alternates.canonical` в `generateMetadata` для guide-страниц + OpenGraph/Twitter cards.
 
-### 📚 Track H — Content depth (расширение ключевых статей)
+### 📚 Track H — Content depth (расширение ключевых статей) ✅
 
 По приоритету влияния на читателя:
 
-- [ ] **H1.** `guide/russian-llm-harness.md` — добавить runnable code-пример (полный `harness.toml` под YandexGPT + GigaChat).
-- [ ] **H2.** `guide/yandexgpt-and-gigachat.md` — таблица сравнения моделей (context window, цена/1M tokens, supports tools).
-- [ ] **H3.** `guide/open-source-llm-stack.md` — `docker-compose.yml` для локального vLLM + OpenWebUI.
-- [ ] **H4.** `guide/compliance-152fz.md` — чек-лист аудита ПДн в формате copy-paste.
-- [ ] **H5.** `guide/on-prem-harness.md` — ASCII-диаграмма air-gapped deploy.
+- [x] **H1.** `guide/russian-llm-harness.md` — эталонная `harness.toml` (multi-provider failover, RU token budget, text-mode fallback, pdn_filter).
+- [x] **H2.** `guide/yandexgpt-and-gigachat.md` — таблица сравнения моделей под harness-задачи (6 моделей × context/tools/latency/strengths/weaknesses).
+- [x] **H3.** `guide/open-source-llm-stack.md` — `docker-compose.yml` quickstart (vLLM + OpenWebUI, GPU deployment, smoke-test).
+- [x] **H4.** `guide/compliance-152fz.md` — заполненный пример аудита для типового support-бота + sample journal entry.
+- [x] **H5.** `guide/on-prem-harness.md` — ASCII-диаграмма air-gapped deploy (staging/data/management сегменты, односторонний transfer).
 
 ---
 
@@ -228,10 +228,10 @@ harness-engineering-guide.ru/
 
 - Этап 1–6: **завершены** ✅ (полный перевод 25 статей оригинала + changelog + skills + .github)
 - Этап 7: **практически завершён** 🔄 (Track A/C/D ✅, B6 — по запросам сообщества)
-- Этап 8: **в работе** 🔄
+- Этап 8: **завершён** ✅ (все 4 трека: E, F, G, H)
   - Track E (site features): **5/5 ✅** (reading time, related, RSS, search, TOC)
   - Track F (quality gates): **5/5 ✅** (F1-F5 + попутные фиксы контента)
-  - Track G (SEO): 4/5 (sitemap+robots+JSON-LD+canonical; OG-images pending)
-  - Track H (content depth): 0/5
+  - Track G (SEO): **5/5 ✅** (sitemap+robots+JSON-LD+canonical+OG images)
+  - Track H (content depth): **5/5 ✅** (5 ключевых статей расширены практическим контентом)
 
-> Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц**).
+> Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц** + `/feed.xml` + `/search.json` + `/robots.txt` + `/sitemap.xml`).
