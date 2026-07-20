@@ -10,6 +10,8 @@
 | [ru-doc-summarizer](./ru-doc-summarizer/) | RU-оригинал | Саммаризация длинных русскоязычных документов (ГОСТы, регламенты, протоколы) — 5-шаговый процесс, извлечение решений/action items с метками модальности, разрешение ссылок, chunker на Python |
 | [152fz-audit](./152fz-audit/) | RU-оригинал | Аудит chat-логов AI-агента на наличие ПДн по 152-ФЗ — 6-шаговый процесс, классификация по УЗ-1..УЗ-4, regex + pseudonymization на Python (email, телефон, ИНН, СНИЛС, паспорт, PAN с Luhn-check) |
 | [cyrillic-log-analyzer](./cyrillic-log-analyzer/) | RU-оригинал | Детектор и восстановитель логов с битой кодировкой (UTF-8↔CP1251/Latin-1 mojibake), транслитом и забытым переключением раскладки — 6 категорий строк, оценка 0-12, авто-fix + транслитерация (3 схемы) + layout switch на Python |
+| [harness-metrics-exporter](./harness-metrics-exporter/) | RU-оригинал | Конвертер JSON-lines логов harness в Prometheus exposition format — counters (requests/errors/tokens/tool_calls/guardrails) + histograms (duration/llm_latency/iterations/cost), harness-специфичные buckets, node_exporter textfile collector-ready, только Python stdlib |
+| [incident-postmortem](./incident-postmortem/) | RU-оригинал | Шаблон и процесс blameless postmortem'а для инцидентов в harness — полный template (Summary/Impact/Timeline/RCA/Action Items/Lessons), скрипт generate_postmortem.py с автозаполнением метаданных, адаптация под LLM-специфику (model drift, tool outages, prompt injection, cost spikes) |
 
 ## Как использовать
 

@@ -172,8 +172,8 @@ harness-engineering-guide.ru/
 
 ### 🛠 Track J — Skills
 
-- [ ] **J1.** `skills/harness-metrics-exporter/` — Python-скрипт (stdlib-only), парсит логи harness (JSON-lines) → экспортирует Prometheus exposition format. Готов к `node_exporter textfile collector`.
-- [ ] **J2.** `skills/incident-postmortem/` — шаблон постмортема (markdown) с заготовкой структуры (timeline, impact, root cause, action items), auto-fill из trace ID если есть.
+- [x] **J1.** `skills/harness-metrics-exporter/` — Python-скрипт (stdlib-only), парсит логи harness (JSON-lines) → экспортирует Prometheus exposition format. Готов к `node_exporter textfile collector`.
+- [x] **J2.** `skills/incident-postmortem/` — шаблон постмортема (markdown) с заготовкой структуры (timeline, impact, root cause, action items), auto-fill из trace ID если есть.
 
 ### 🧪 Track K — Инженерные улучшения сайта
 
@@ -267,7 +267,7 @@ harness-engineering-guide.ru/
   - Track H (content depth): **5/5 ✅** (5 ключевых статей расширены практическим контентом)
 - Этап 9: **в работе** 🔄
   - Track I (статьи): **5/5 ✅** (observability, metrics, tracing, alerting, runbook)
-  - Track J (skills): 0/2 (metrics-exporter, postmortem)
+  - Track J (skills): **2/2 ✅** (metrics-exporter, postmortem)
   - Track K (инженерные): 0/1 (страница /metrics)
   - Track L (поддержка): 0/4
 
