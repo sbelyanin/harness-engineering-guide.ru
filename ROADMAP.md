@@ -177,7 +177,7 @@ harness-engineering-guide.ru/
 
 ### 🧪 Track K — Инженерные улучшения сайта
 
-- [ ] **K1.** Страница `/metrics` — публичный статус проекта: бейджи CI, последняя сборка, число статей/skills, размер бандла. Служит «dogfooding»-примером: вот так выглядит observability даже у docs-сайта.
+- [x] **K1.** Страница `/metrics` — публичный статус проекта: бейджи CI, последняя сборка, число статей/skills, размер бандла. Служит «dogfooding»-примером: вот так выглядит observability даже у docs-сайта.
 
 ### 🔁 Track L — Поддержка и cross-cutting
 
@@ -268,7 +268,7 @@ harness-engineering-guide.ru/
 - Этап 9: **в работе** 🔄
   - Track I (статьи): **5/5 ✅** (observability, metrics, tracing, alerting, runbook)
   - Track J (skills): **2/2 ✅** (metrics-exporter, postmortem)
-  - Track K (инженерные): 0/1 (страница /metrics)
+  - Track K (инженерные): **1/1 ✅** (страница /metrics)
   - Track L (поддержка): 0/4
 
 > Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц** + `/feed.xml` + `/search.json` + `/robots.txt` + `/sitemap.xml`).

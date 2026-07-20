@@ -40,6 +40,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: BASE_URL, lastModified: new Date().toISOString(), changeFrequency: "weekly", priority: 1.0 },
     { url: `${BASE_URL}/changelog`, lastModified: new Date().toISOString(), changeFrequency: "weekly", priority: 0.8 },
     { url: `${BASE_URL}/community`, lastModified: new Date().toISOString(), changeFrequency: "monthly", priority: 0.6 },
+    { url: `${BASE_URL}/metrics`, lastModified: new Date().toISOString(), changeFrequency: "weekly", priority: 0.5 },
   ];
 
   for (const slug of guideOrder) {

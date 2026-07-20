@@ -9,6 +9,7 @@ import SearchDialog from "./SearchDialog";
 const navLinks = [
   { href: "/guide/what-is-harness", label: "Гайд" },
   { href: "/changelog", label: "Changelog" },
+  { href: "/metrics", label: "Метрики" },
   { href: "/community", label: "Сообщество" },
 ];
 
