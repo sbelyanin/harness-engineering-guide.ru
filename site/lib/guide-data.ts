@@ -23,6 +23,7 @@ export const guideSections: GuideSection[] = [
       { slug: "tool-system", title: "Tool System" },
       { slug: "memory-and-context", title: "Memory & Context" },
       { slug: "guardrails", title: "Guardrails" },
+      { slug: "observability", title: "Observability" },
     ],
   },
   {
@@ -49,6 +50,10 @@ export const guideSections: GuideSection[] = [
       { slug: "open-source-llm-stack", title: "Open-Source LLM-стек" },
       { slug: "cyrillic-tokenization", title: "Cyrillic Tokenization" },
       { slug: "compliance-152fz", title: "Compliance: 152-ФЗ" },
+      { slug: "harness-metrics", title: "Harness Metrics" },
+      { slug: "llm-tracing", title: "LLM Tracing" },
+      { slug: "alerting-and-slo", title: "Alerting и SLO" },
+      { slug: "incident-runbook", title: "Incident Runbook" },
     ],
   },
   {

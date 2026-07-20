@@ -70,6 +70,11 @@
 | [Open-Source LLM-стек](guide/open-source-llm-stack.md) | vLLM/Ollama/TGI как замена API-провайдерам: квантизация, throughput, мониторинг, failover. |
 | [Cyrillic Tokenization](guide/cyrillic-tokenization.md) | Токен-экономика русского текста: измерение penalty, пересчёт budget, bilingual strategy. |
 | [Compliance: 152-ФЗ](guide/compliance-152fz.md) | Harness под персональные данные: классификация ПДн, цели обработки, pseudonymization, право на удаление, журнал доступа. |
+| [Observability](guide/observability.md) | Четыре сигнала для LLM-систем: metrics, logs, traces + evals. Почему классического мониторинга недостаточно. |
+| [Harness Metrics](guide/harness-metrics.md) | REDCoT для LLM: Rate, Errors, Duration, Cost, Tokens. Канонический набор метрик, naming, гистограммы. |
+| [LLM Tracing](guide/llm-tracing.md) | OpenTelemetry GenAI semantic conventions, span attributes, sampling стратегии, цена trace'ов. |
+| [Alerting и SLO](guide/alerting-and-slo.md) | SLO для harness: success rate, latency p99, cost per session. Error budget, multi-burn-rate alerts. |
+| [Incident Runbook](guide/incident-runbook.md) | Типовые инциденты: model outage, tool breakage, prompt injection, cost spike. Postmortem template. |
 
 ## Reference / Справочник
 

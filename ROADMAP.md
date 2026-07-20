@@ -156,7 +156,39 @@ harness-engineering-guide.ru/
 
 ---
 
-## Этап 7 — Независимое развитие русскоязычного издания (архив)
+## Этап 9 — Observability + production-readiness
+
+Цель: дать читателю полный цикл запуска harness в production — от instrumenting модели до runbook'а на дежурстве. LLM-системы принципиально недетерминированы, поэтому классические методы мониторинга (RED, USE) нужно адаптировать. Работа ведётся по **четырём трекам**.
+
+### 📊 Track I — Книги: observability для harness
+
+Пять статей покрывают весь цикл наблюдаемости — от базовой инструментации до postmortem'а.
+
+- [x] **I1.** `guide/observability.md` (section: core-concepts) — введение: почему LLM ≠ regular service, три кита (metrics/logs/traces), стоимость «слепых зон», связь с eval-infrastructure.
+- [x] **I2.** `guide/harness-metrics.md` (section: practice) — RED для harness: Rate (requests/s, tokens/s), Errors (по классам: model, tool, guardrail), Duration (LLM p50/p95/p99, tool latency). Naming conventions, units, гистограммы. Что НЕ измерять.
+- [x] **I3.** `guide/llm-tracing.md` (section: practice) — distributed tracing: OpenTelemetry GenAI semantic conventions, span attributes (`gen_ai.system`, `gen_ai.request.model`, `gen_ai.usage.*`), context propagation через agent-loop, стоимость trace'ов (sampling).
+- [x] **I4.** `guide/alerting-and-slo.md` (section: practice) — SLO для harness (success rate, latency p99, cost per session), error budget, multi-window multi-burn-rate alerts, oncall routing.
+- [x] **I5.** `guide/incident-runbook.md` (section: practice) — типовые инциденты (model outage, tool deprecation, prompt injection detected, cost spike, context-window exhaustion), runbook для каждого, postmortem template.
+
+### 🛠 Track J — Skills
+
+- [ ] **J1.** `skills/harness-metrics-exporter/` — Python-скрипт (stdlib-only), парсит логи harness (JSON-lines) → экспортирует Prometheus exposition format. Готов к `node_exporter textfile collector`.
+- [ ] **J2.** `skills/incident-postmortem/` — шаблон постмортема (markdown) с заготовкой структуры (timeline, impact, root cause, action items), auto-fill из trace ID если есть.
+
+### 🧪 Track K — Инженерные улучшения сайта
+
+- [ ] **K1.** Страница `/metrics` — публичный статус проекта: бейджи CI, последняя сборка, число статей/skills, размер бандла. Служит «dogfooding»-примером: вот так выглядит observability даже у docs-сайта.
+
+### 🔁 Track L — Поддержка и cross-cutting
+
+- [ ] **L1.** Обновить `README.md` — упомянуть observability-статьи.
+- [ ] **L2.** Обновить `skills/README.md` — новые skills (J1, J2).
+- [ ] **L3.** Создать `changelog/ru-YYYY-MM-DD.md` по завершении Этапа 9.
+- [ ] **L4.** Опционально: перекрёстные ссылки из существующих статей (eval-infrastructure, error-handling, long-running-harness).
+
+---
+
+
 
 Цель: превратить RU-издание из перевода в самостоятельный проект, ориентированный на русскоязычную аудиторию. Работа ведётся параллельно по **четырём трекам** (A → B/C/D), каждый трек разбит на подзадачи.
 
@@ -233,5 +265,10 @@ harness-engineering-guide.ru/
   - Track F (quality gates): **5/5 ✅** (F1-F5 + попутные фиксы контента)
   - Track G (SEO): **5/5 ✅** (sitemap+robots+JSON-LD+canonical+OG images)
   - Track H (content depth): **5/5 ✅** (5 ключевых статей расширены практическим контентом)
+- Этап 9: **в работе** 🔄
+  - Track I (статьи): **5/5 ✅** (observability, metrics, tracing, alerting, runbook)
+  - Track J (skills): 0/2 (metrics-exporter, postmortem)
+  - Track K (инженерные): 0/1 (страница /metrics)
+  - Track L (поддержка): 0/4
 
 > Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц** + `/feed.xml` + `/search.json` + `/robots.txt` + `/sitemap.xml`).
