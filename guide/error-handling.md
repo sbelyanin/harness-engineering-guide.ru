@@ -338,3 +338,5 @@ def agentic_loop_with_checkpoint(task_id: str, messages: list, tools: list):
 - [AWS: Exponential Backoff and Jitter](https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/) — исчерпывающий гайд по retry-стратегиям
 - [Anthropic: Building Effective Agents](https://www.anthropic.com/research/building-effective-agents) — паттерны восстановления ошибок в production-агентах
 - [Microsoft: Retry Pattern](https://learn.microsoft.com/en-us/azure/architecture/patterns/retry) — облачные паттерны обработки transient-сбоев
+- **[Incident Runbook](/guide/incident-runbook)** — что делать, когда retry/graceful degradation не спасли: типовые инциденты, postmortem template.
+- **[Harness Metrics](/guide/harness-metrics)** — классификация ошибок, превращающаяся в метки `harness_errors_total{class}` для SLO-алертинга.

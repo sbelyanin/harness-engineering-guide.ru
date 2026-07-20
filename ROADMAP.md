@@ -156,7 +156,7 @@ harness-engineering-guide.ru/
 
 ---
 
-## Этап 9 — Observability + production-readiness
+## Этап 9 — Observability + production-readiness ✅
 
 Цель: дать читателю полный цикл запуска harness в production — от instrumenting модели до runbook'а на дежурстве. LLM-системы принципиально недетерминированы, поэтому классические методы мониторинга (RED, USE) нужно адаптировать. Работа ведётся по **четырём трекам**.
 
@@ -179,12 +179,12 @@ harness-engineering-guide.ru/
 
 - [x] **K1.** Страница `/metrics` — публичный статус проекта: бейджи CI, последняя сборка, число статей/skills, размер бандла. Служит «dogfooding»-примером: вот так выглядит observability даже у docs-сайта.
 
-### 🔁 Track L — Поддержка и cross-cutting
+### 🔁 Track L — Поддержка и cross-cutting ✅
 
-- [ ] **L1.** Обновить `README.md` — упомянуть observability-статьи.
-- [ ] **L2.** Обновить `skills/README.md` — новые skills (J1, J2).
-- [ ] **L3.** Создать `changelog/ru-YYYY-MM-DD.md` по завершении Этапа 9.
-- [ ] **L4.** Опционально: перекрёстные ссылки из существующих статей (eval-infrastructure, error-handling, long-running-harness).
+- [x] **L1.** Обновить `README.md` — упомянуть observability-статьи.
+- [x] **L2.** Обновить `skills/README.md` — новые skills (J1, J2).
+- [x] **L3.** Создать `changelog/ru-2026-07-24.md` с обзором Этапа 9.
+- [x] **L4.** Перекрёстные ссылки из `eval-infrastructure`, `error-handling`, `guardrails` на observability-цикл.
 
 ---
 
@@ -265,10 +265,10 @@ harness-engineering-guide.ru/
   - Track F (quality gates): **5/5 ✅** (F1-F5 + попутные фиксы контента)
   - Track G (SEO): **5/5 ✅** (sitemap+robots+JSON-LD+canonical+OG images)
   - Track H (content depth): **5/5 ✅** (5 ключевых статей расширены практическим контентом)
-- Этап 9: **в работе** 🔄
+- Этап 9: **завершён** ✅ (observability + production-readiness)
   - Track I (статьи): **5/5 ✅** (observability, metrics, tracing, alerting, runbook)
   - Track J (skills): **2/2 ✅** (metrics-exporter, postmortem)
   - Track K (инженерные): **1/1 ✅** (страница /metrics)
-  - Track L (поддержка): 0/4
+  - Track L (поддержка): **4/4 ✅** (README, skills-README, changelog, cross-links)
 
-> Объём перевода оригинала: **25/25** статей. Всего в гайде: **31 статья** (+6 RU-оригинальных). Skills: **4** (+3 RU-оригинальных). Сборка зелёная (**39 SSG-страниц** + `/feed.xml` + `/search.json` + `/robots.txt` + `/sitemap.xml`).
+> Объём перевода оригинала: **25/25** статей. Всего в гайде: **36 статей** (+6 RU-оригинальных, +5 observability). Skills: **6** (+5 RU-оригинальных). Сборка зелёная (**45 SSG-страниц** + `/feed.xml` + `/search.json` + `/robots.txt` + `/sitemap.xml` + `/metrics`).

@@ -157,3 +157,5 @@ def sanitize_tool_result(result: str, max_length: int = 50_000) -> str:
 
 - [Simon Willison: Prompt Injection](https://simonwillison.net/series/prompt-injection/) — обстоятельная серия о threat-модели
 - [Anthropic: Mitigating Prompt Injection](https://docs.anthropic.com/en/docs/test-and-evaluate/strengthen-guardrails/mitigate-jailbreaks) — практические паттерны защиты
+- **[Harness Metrics](/guide/harness-metrics)** — `harness_guardrails_tripped_total{rule}` как метрика раннего предупреждения об атаках.
+- **[Incident Runbook](/guide/incident-runbook)** — что делать при росте guardrail-триггеров (раздел «Prompt injection detected»).

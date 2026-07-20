@@ -243,6 +243,7 @@ eval-spec/
 - **SWE-bench** — [swebench.com](https://www.swebench.com). Самый широко используемый agentic coding-бенчмарк и контекст для большей части обсуждения.
 - **Docker Resource Constraints** — [docs.docker.com/config/containers/resource_constraints](https://docs.docker.com/config/containers/resource_constraints/). Справка по CPU shares, лимитам памяти и поведению OOM в контейнерных средах.
 - **cgroups v2 Documentation** — [kernel.org/doc/html/latest/admin-guide/cgroup-v2.html](https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html). Как Linux обеспечивает ресурсные гарантии на уровне ядра.
+- **[Observability для Harness](/guide/observability)** — эвалюации как четвёртый сигнал (после metrics/logs/traces): offline-корпус для ловли регрессий и online-sampling для дрейфа реального трафика.
 
 ---
 
